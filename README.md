@@ -19,7 +19,16 @@ one engine.
 
 ---
 
-## Quick start
+## Local dev
+
+| Path | Requires |
+|------|----------|
+| [Nix + terminal](#nix--terminal) | Nix |
+| [Nix + VS Code](#nix--vs-code) | Nix, VS Code |
+| [JDK 21 + terminal](#jdk-21--terminal) | JDK 21 |
+| [Docker + VS Code Dev Container](#docker--vs-code-dev-container) | Docker, VS Code |
+
+### Nix + terminal
 
 The environment is fully reproducible via **Nix** (JDK 21 + Gradle are pinned in `flake.nix`); nothing
 needs to be installed globally. If you don't have Nix, see [PulfordJ/install-nix](https://github.com/PulfordJ/install-nix).
@@ -43,12 +52,14 @@ nix develop --command ./gradlew bootRun
 ```
 
 > The committed `./gradlew` wrapper pins Gradle 8.14.4; `nix develop` exports `JAVA_HOME` so the
-> wrapper runs on the Nix-provided JDK 21. If you already have a JDK 21 on `PATH` you can run
-> `./gradlew test` without Nix too.
+> wrapper runs on the Nix-provided JDK 21.
 
-### Opening in VS Code
+---
 
-To get VS Code picking up the Nix-provided JDK and Gradle, launch it from inside the Nix shell rather than from your desktop/system launcher:
+### Nix + VS Code
+
+Launch VS Code from inside the Nix shell so it inherits `JAVA_HOME` and the pinned JDK — the Java
+and Gradle extensions resolve correctly without any manual SDK configuration.
 
 **WSL (Windows)**
 
@@ -69,20 +80,33 @@ nix develop
 code .
 ```
 
-The shell started by `nix develop` exports `JAVA_HOME` and puts the pinned JDK on `PATH`; `code .` inherits that environment so the Java and Gradle extensions resolve correctly without any manual SDK configuration.
+---
+
+### JDK 21 + terminal
+
+If you already have JDK 21 on your `PATH`, no other tooling is needed:
+
+```bash
+./gradlew test
+./gradlew bootRun
+```
+
+The committed `./gradlew` wrapper pins Gradle 8.14.4 and downloads it automatically on first run.
 
 ---
 
-### Dev Containers
+### Docker + VS Code Dev Container
 
-Three Dev Container definitions live under [`.devcontainer/`](.devcontainer/), all sharing one
-`Dockerfile` (Ubuntu 24.04 + Node + Claude Code CLI + supervisor) and the Nix dev-container feature:
+No local JDK or Nix required — JDK 21 is baked into the devcontainer image. Open the repo in
+VS Code with the **Dev Containers** extension installed and choose **Reopen in Container**.
+
+Three definitions live under [`.devcontainer/`](.devcontainer/):
 
 - **`devcontainer.json`** — default (macOS/Linux hosts)
 - **`wsl/devcontainer.json`** — Windows + WSL2 host paths *(edit the hard-coded `\\wsl.localhost\Ubuntu\home\<you>\…` mount paths for your user)*
 - **`windows/devcontainer.json`** — native Windows host paths
 
-On create they warm the Gradle cache; `supervisord` then auto-starts the mock on ports 8080/9876.
+On create the container warms the Gradle cache; `supervisord` then auto-starts the mock on ports 8080/9876.
 
 ---
 
@@ -195,12 +219,12 @@ state transitions, and edge/negative cases — not just happy paths:
 |-------------------------------------|----------------------------------------------------------------------------------------------|
 | Order lifecycle & status codes      | `rest/OrderRestIntegrationTest`                                                              |
 | Input validation & edge cases       | `rest/OrderValidationIntegrationTest`                                                       |
-| **Funds: reserve / release / settle** | `rest/AccountFundingIntegrationTest`                                                       |
+| Funds: reserve / release / settle | `rest/AccountFundingIntegrationTest`                                                       |
 | Matching correctness                | `engine/MatchingEngineIntegrationTest`                                                       |
 | Market-data streaming               | `ws/MarketDataStreamIntegrationTest`                                                         |
 | Async order events & filtering      | `ws/OrderEventsStreamIntegrationTest`                                                        |
 | FIX execution & cancel/reject       | `fix/FixOrderExecutionIntegrationTest`                                                        |
-| **Cross-protocol state consistency** | `e2e/TradingScenarioE2ETest`                                                                |
+| Cross-protocol state consistency | `e2e/TradingScenarioE2ETest`                                                                |
 
 ---
 

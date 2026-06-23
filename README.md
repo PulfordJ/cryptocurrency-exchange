@@ -22,7 +22,7 @@ one engine.
 ## Quick start
 
 The environment is fully reproducible via **Nix** (JDK 21 + Gradle are pinned in `flake.nix`); nothing
-needs to be installed globally.
+needs to be installed globally. If you don't have Nix, see [PulfordJ/install-nix](https://github.com/PulfordJ/install-nix).
 
 ```bash
 # Enter the reproducible toolchain (JDK 21 + Gradle from Nix)

@@ -8,12 +8,12 @@ group = "com.exchange"
 version = "0.1.0"
 description = "Mock cryptocurrency exchange (REST + WebSocket + FIX) with a Java integration test suite"
 
-// No Gradle toolchain auto-download: the build compiles with the JDK that runs Gradle.
-// Inside `nix develop`, the ./gradlew wrapper runs on the Nix-provided JDK 21 (JAVA_HOME),
-// keeping the build reproducible without any network toolchain provisioning.
+// Toolchain targets JDK 21. Inside `nix develop`, JAVA_HOME points to the Nix-provided
+// JDK 21 so Gradle uses that directly. Outside Nix, Gradle auto-provisions via Foojay.
 java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
 }
 
 repositories {

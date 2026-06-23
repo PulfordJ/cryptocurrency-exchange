@@ -81,6 +81,34 @@ class AccountServiceTest {
     }
 
     @Test
+    @DisplayName("releasing an order that never reserved anything is a no-op")
+    void releaseNeverReservedIsNoOp() {
+        Order market = Orders.market("ACC-1", "BTC-USD", Side.BUY, 1); // reserve() is a no-op
+
+        accounts.releaseRemaining(market);
+
+        assertThat(available("ACC-1", "USD")).isEqualByComparingTo("1000000");
+        assertThat(reserved("ACC-1", "USD")).isEqualByComparingTo("0");
+    }
+
+    @Test
+    @DisplayName("releasing an order whose reserve was fully consumed is a no-op")
+    void releaseFullyConsumedIsNoOp() {
+        Order sell = Orders.limit("ACC-1", "BTC-USD", Side.SELL, 30000, 1);
+        Order buy = Orders.limit("ACC-2", "BTC-USD", Side.BUY, 30000, 1);
+        accounts.reserve(sell);
+        accounts.reserve(buy);
+        accounts.settleFill(buy, sell, new BigDecimal("30000"), BigDecimal.ONE);
+
+        // The seller's reserve is now zero (asset still tagged); releasing must change nothing.
+        BigDecimal btcBefore = available("ACC-1", "BTC");
+        accounts.releaseRemaining(sell);
+
+        assertThat(available("ACC-1", "BTC")).isEqualByComparingTo(btcBefore);
+        assertThat(reserved("ACC-1", "BTC")).isEqualByComparingTo("0");
+    }
+
+    @Test
     @DisplayName("a fill settles both sides and refunds price improvement to the aggressor")
     void settleFillRefundsPriceImprovement() {
         Order sell = Orders.limit("ACC-1", "BTC-USD", Side.SELL, 30000, 1);

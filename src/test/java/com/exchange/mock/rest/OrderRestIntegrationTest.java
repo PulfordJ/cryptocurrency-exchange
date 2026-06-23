@@ -59,6 +59,17 @@ class OrderRestIntegrationTest extends IntegrationTestBase {
     }
 
     @Test
+    @DisplayName("listing orders with no filter returns every account's orders")
+    void listAllOrders() {
+        placeOrderId(OrderRequests.limit("ACC-1", "BTC-USD", "BUY", 30000, 0.5));
+        placeOrderId(OrderRequests.limit("ACC-2", "BTC-USD", "BUY", 29000, 0.5));
+
+        given().get("/api/orders").then()
+                .statusCode(200)
+                .body("size()", equalTo(2));
+    }
+
+    @Test
     @DisplayName("cancelling a resting order returns CANCELLED and removes it from the book")
     void cancelRestingOrder() {
         String id = placeOrderId(OrderRequests.limit("ACC-1", "BTC-USD", "BUY", 30000, 1));

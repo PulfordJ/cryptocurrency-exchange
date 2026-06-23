@@ -54,6 +54,28 @@ class MatchingEngineTest {
     }
 
     @Test
+    @DisplayName("a buy below the best ask does not cross and rests on the book")
+    void nonCrossingBuyRests() {
+        engine.submit(Orders.limit("ACC-1", "BTC-USD", Side.SELL, 30000, 1));
+
+        Order buy = engine.submit(Orders.limit("ACC-2", "BTC-USD", Side.BUY, 29000, 1));
+
+        assertThat(buy.status()).isEqualTo(OrderStatus.NEW);
+        assertThat(engine.snapshot(Symbol.parse("BTC-USD"), 10).bids()).hasSize(1);
+    }
+
+    @Test
+    @DisplayName("a sell above the best bid does not cross and rests on the book")
+    void nonCrossingSellRests() {
+        engine.submit(Orders.limit("ACC-1", "BTC-USD", Side.BUY, 30000, 1));
+
+        Order sell = engine.submit(Orders.limit("ACC-2", "BTC-USD", Side.SELL, 31000, 1));
+
+        assertThat(sell.status()).isEqualTo(OrderStatus.NEW);
+        assertThat(engine.snapshot(Symbol.parse("BTC-USD"), 10).asks()).hasSize(1);
+    }
+
+    @Test
     @DisplayName("a market order that exhausts the book keeps what it filled and drops the remainder")
     void marketPartialFillDropsRemainder() {
         engine.submit(Orders.limit("ACC-1", "BTC-USD", Side.SELL, 30000, "0.5"));

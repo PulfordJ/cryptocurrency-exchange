@@ -69,6 +69,32 @@ class OrderBookTest {
     }
 
     @Test
+    @DisplayName("removing one order at a price keeps the level and the other orders")
+    void removeKeepsNonEmptyLevel() {
+        Order first = Orders.limit("ACC-1", "BTC-USD", Side.SELL, 30000, 1);
+        Order second = Orders.limit("ACC-2", "BTC-USD", Side.SELL, 30000, 2);
+        book.rest(first);
+        book.rest(second);
+
+        book.remove(first);
+
+        OrderBookView.PriceLevel ask = book.snapshot(10).asks().get(0);
+        assertThat(ask.orderCount()).isEqualTo(1);
+        assertThat(ask.quantity()).isEqualByComparingTo("2");
+    }
+
+    @Test
+    @DisplayName("removing an order at a price that holds no level is a no-op")
+    void removeMissingPriceLevelIsNoOp() {
+        book.rest(Orders.limit("ACC-1", "BTC-USD", Side.SELL, 30000, 1));
+
+        // A different, never-rested order at a price with no level on the book.
+        book.remove(Orders.limit("ACC-2", "BTC-USD", Side.SELL, 31000, 1));
+
+        assertThat(book.snapshot(10).asks()).hasSize(1);
+    }
+
+    @Test
     @DisplayName("removing a market order (null price) is a no-op")
     void removeMarketOrderIsNoOp() {
         book.rest(Orders.limit("ACC-1", "BTC-USD", Side.SELL, 30000, 1));

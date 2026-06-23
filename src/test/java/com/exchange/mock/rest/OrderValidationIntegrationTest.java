@@ -69,6 +69,19 @@ class OrderValidationIntegrationTest extends IntegrationTestBase {
     }
 
     @Test
+    @DisplayName("a blank clientOrderId is treated as absent and bypasses the idempotency guard")
+    void blankClientOrderIdIsNotAnIdempotencyKey() {
+        placeOrder(OrderRequests.withClientOrderId(
+                OrderRequests.limit("ACC-1", "BTC-USD", "BUY", 30000, 1), ""))
+                .then().statusCode(201);
+
+        // A second blank key must not be rejected as a duplicate.
+        placeOrder(OrderRequests.withClientOrderId(
+                OrderRequests.limit("ACC-1", "BTC-USD", "BUY", 30000, 1), ""))
+                .then().statusCode(201);
+    }
+
+    @Test
     @DisplayName("reusing a clientOrderId for an account returns 409 (idempotency guard)")
     void duplicateClientOrderId() {
         placeOrder(OrderRequests.withClientOrderId(

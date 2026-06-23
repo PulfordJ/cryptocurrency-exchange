@@ -158,6 +158,12 @@ class MatchingEngineIntegrationTest extends IntegrationTestBase {
     }
 
     @Test
+    @DisplayName("an order book snapshot for an unlisted symbol is rejected with 422")
+    void orderBookUnknownSymbolRejected() {
+        orderBook("DOGE-USD").then().statusCode(422);
+    }
+
+    @Test
     @DisplayName("a market order with no liquidity is REJECTED")
     void marketOrderNoLiquidityRejected() {
         placeOrder(OrderRequests.market("ACC-2", "BTC-USD", "BUY", 1)).then()

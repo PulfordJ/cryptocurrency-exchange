@@ -205,6 +205,10 @@ verify the *same* behaviour across transports.
 ### Test framework structure
 - **JUnit 5 + RestAssured + AssertJ**, with `@SpringBootTest(RANDOM_PORT)` booting the whole app
   (all three protocols) per the shared [`IntegrationTestBase`](src/test/java/com/exchange/mock/support/IntegrationTestBase.java).
+- **Two layers (a test pyramid)**: fast, Spring-free unit tests in
+  [`unit/`](src/test/java/com/exchange/mock/unit) pin the order book, funding math and
+  matching-engine edge cases directly; the integration tests above prove the transports agree
+  end-to-end.
 - **Deterministic & independent**: every test resets exchange state first; the FIX acceptor binds a
   free port chosen once per JVM so one cached Spring context serves the whole suite.
 - **No `Thread.sleep`**: asynchronous WebSocket and FIX assertions poll with bounded timeouts via the
@@ -225,6 +229,13 @@ state transitions, and edge/negative cases — not just happy paths:
 | Async order events & filtering      | `ws/OrderEventsStreamIntegrationTest`                                                        |
 | FIX execution & cancel/reject       | `fix/FixOrderExecutionIntegrationTest`                                                        |
 | Cross-protocol state consistency | `e2e/TradingScenarioE2ETest`                                                                |
+| Order book / funding / engine units | `unit/OrderBookTest`, `unit/AccountServiceTest`, `unit/MatchingEngineTest`, `unit/OrderTest` |
+
+### Coverage (JaCoCo)
+`./gradlew test` writes a coverage report to `build/reports/jacoco/test/html/index.html` (with an
+XML report alongside for CI). `./gradlew jacocoTestCoverageVerification` enforces a 70%
+instruction/line floor. Current coverage is ~95% instruction / 94% line — the uncovered remainder
+is mostly the Spring bootstrap `main`, which the tests never invoke.
 
 ---
 

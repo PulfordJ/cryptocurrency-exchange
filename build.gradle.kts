@@ -1,5 +1,6 @@
 plugins {
     java
+    jacoco
     id("org.springframework.boot") version "3.3.5"
     id("io.spring.dependency-management") version "1.1.6"
 }
@@ -43,5 +44,34 @@ tasks.withType<Test> {
     testLogging {
         events("passed", "skipped", "failed")
         showStandardStreams = false
+    }
+}
+
+// --- Code coverage (JaCoCo) ---
+// `./gradlew test` produces a report at build/reports/jacoco/test/html/index.html (plus an XML
+// report for CI tooling). Run `./gradlew jacocoTestCoverageVerification` to enforce the gate below.
+jacoco {
+    toolVersion = "0.8.12"
+}
+
+tasks.test {
+    finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports {
+        xml.required = true
+        html.required = true
+    }
+}
+
+tasks.jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = "0.70".toBigDecimal()
+            }
+        }
     }
 }

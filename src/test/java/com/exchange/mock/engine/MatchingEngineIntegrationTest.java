@@ -144,6 +144,20 @@ class MatchingEngineIntegrationTest extends IntegrationTestBase {
     }
 
     @Test
+    @DisplayName("a market order larger than the book fills what it can and keeps the rest unfilled")
+    void marketOrderPartiallyFillsAgainstThinBook() {
+        placeOrderId(OrderRequests.limit("ACC-1", "BTC-USD", "SELL", 30000, 0.5));
+
+        placeOrder(OrderRequests.market("ACC-2", "BTC-USD", "BUY", 1)).then()
+                .statusCode(201)
+                .body("status", equalTo("PARTIALLY_FILLED"))
+                .body("filledQuantity", equalTo(0.5f))
+                .body("remainingQuantity", equalTo(0.5f));
+
+        orderBook("BTC-USD").then().body("asks.size()", equalTo(0));
+    }
+
+    @Test
     @DisplayName("a market order with no liquidity is REJECTED")
     void marketOrderNoLiquidityRejected() {
         placeOrder(OrderRequests.market("ACC-2", "BTC-USD", "BUY", 1)).then()

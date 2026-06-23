@@ -53,6 +53,24 @@ class AccountFundingIntegrationTest extends IntegrationTestBase {
     }
 
     @Test
+    @DisplayName("cancelling a partially-filled order releases only the unfilled remainder")
+    void cancelAfterPartialFillReleasesRemainder() {
+        // ACC-1 rests a sell of 1 BTC; ACC-2 takes 0.4 of it, leaving 0.6 working.
+        String sellId = placeOrderId(OrderRequests.limit("ACC-1", "BTC-USD", "SELL", 30000, 1));
+        placeOrder(OrderRequests.limit("ACC-2", "BTC-USD", "BUY", 30000, 0.4)).then()
+                .statusCode(201)
+                .body("status", equalTo("FILLED"));
+
+        cancelOrder(sellId).then().statusCode(200);
+
+        // Seller keeps proceeds of the 0.4 sold; the unsold 0.6 BTC returns to available.
+        Response seller = account("ACC-1");
+        assertThat(available(seller, "BTC")).isEqualByComparingTo("99.6");
+        assertThat(reserved(seller, "BTC")).isEqualByComparingTo("0");
+        assertThat(available(seller, "USD")).isEqualByComparingTo("1012000");
+    }
+
+    @Test
     @DisplayName("a fill settles both accounts, refunding price improvement to the aggressor")
     void fillSettlesBothAccountsWithPriceImprovement() {
         // Maker rests a sell at 30000; aggressor buys with a higher limit of 31000.

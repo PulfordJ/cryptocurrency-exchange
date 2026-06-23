@@ -35,6 +35,7 @@ dependencies {
     testImplementation("io.rest-assured:rest-assured:5.5.0")
     testImplementation("org.awaitility:awaitility:4.2.2")
     testImplementation("org.assertj:assertj-core:3.26.3")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 tasks.withType<Test> {

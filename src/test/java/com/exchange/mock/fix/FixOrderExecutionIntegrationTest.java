@@ -30,6 +30,7 @@ class FixOrderExecutionIntegrationTest extends IntegrationTestBase {
     private static final Duration TIMEOUT = Duration.ofSeconds(10);
     private FixTestClient fix;
 
+    @SuppressWarnings("resource")
     @BeforeEach
     void connectFix() {
         fix = new FixTestClient(FIX_PORT).start();

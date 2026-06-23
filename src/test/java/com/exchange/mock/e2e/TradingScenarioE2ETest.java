@@ -32,6 +32,7 @@ class TradingScenarioE2ETest extends IntegrationTestBase {
     private static final Duration TIMEOUT = Duration.ofSeconds(10);
     private FixTestClient fix;
 
+    @SuppressWarnings("resource")
     @BeforeEach
     void connectFix() {
         fix = new FixTestClient(FIX_PORT).start();
@@ -55,7 +56,7 @@ class TradingScenarioE2ETest extends IntegrationTestBase {
             // 1) Rest a SELL on the book via FIX (account ACC-1).
             fix.newLimitOrder("S1", "ACC-1", "BTC-USD", Side.SELL, new BigDecimal("1"), new BigDecimal("30000"));
             fix.awaitMessage(m -> FixTestClient.isExecutionReport(m)
-                    && FixTestClient.execType(m) == ExecType.NEW
+                    && FixTestClient.execType(m) == ExecType.NEW && FixTestClient.ordStatus(m) == OrdStatus.NEW
                     && FixTestClient.clOrdId(m).equals("S1"), TIMEOUT);
             marketData.awaitMessage(jp -> !jp.getList("asks").isEmpty(), TIMEOUT);
             orderEvents.awaitMessage(typeIs("ACCEPTED"), TIMEOUT);

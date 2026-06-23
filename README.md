@@ -46,6 +46,33 @@ nix develop --command ./gradlew bootRun
 > wrapper runs on the Nix-provided JDK 21. If you already have a JDK 21 on `PATH` you can run
 > `./gradlew test` without Nix too.
 
+### Opening in VS Code
+
+To get VS Code picking up the Nix-provided JDK and Gradle, launch it from inside the Nix shell rather than from your desktop/system launcher:
+
+**WSL (Windows)**
+
+```bash
+# In a WSL terminal (e.g. Windows Terminal → Ubuntu)
+cd /path/to/cryptocurrency-exchange
+nix develop
+code .
+```
+
+VS Code opens on Windows with the WSL remote extension connected to the Nix environment. The first `code .` from WSL may prompt you to install the **WSL** extension — do so, then re-run `code .`.
+
+**macOS / Linux**
+
+```bash
+cd /path/to/cryptocurrency-exchange
+nix develop
+code .
+```
+
+The shell started by `nix develop` exports `JAVA_HOME` and puts the pinned JDK on `PATH`; `code .` inherits that environment so the Java and Gradle extensions resolve correctly without any manual SDK configuration.
+
+---
+
 ### Dev Containers
 
 Three Dev Container definitions live under [`.devcontainer/`](.devcontainer/), all sharing one

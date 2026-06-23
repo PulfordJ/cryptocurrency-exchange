@@ -91,6 +91,8 @@ public class MatchingEngine {
         }
     }
 
+    // No self-trade prevention (STP): a client that relies on the exchange to prevent self-trades
+    // rather than managing it client-side has a bug; the mock should not mask that.
     private void match(Order incoming, OrderBook book, List<Object> pending) {
         NavigableMap<BigDecimal, Deque<Order>> opposite = book.oppositeSide(incoming.side());
         while (!incoming.isFullyFilled()) {

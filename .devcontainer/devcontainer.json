@@ -1,0 +1,52 @@
+{
+  "name": "Crypto Exchange Mock",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/nix:1": {
+      "version": "latest",
+      "multiUser": true
+    }
+  },
+  "mounts": [
+    // Claude credentials and config (tokens, settings, memory)
+    "source=${localEnv:HOME}/.claude,target=/root/.claude,type=bind,consistency=cached",
+    // Claude auth state (oauth account + session token - stored outside the .claude dir)
+    "source=${localEnv:HOME}/.claude.json,target=/root/.claude.json,type=bind,consistency=cached",
+    // Host git identity (name, email, aliases)
+    "source=${localEnv:HOME}/.gitconfig,target=/root/.gitconfig,type=bind,consistency=cached",
+    // Host SSH keys (for git push over SSH)
+    "source=${localEnv:HOME}/.ssh,target=/root/.ssh,type=bind,consistency=cached"
+  ],
+  "workspaceFolder": "/workspace",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+  "remoteEnv": {
+    "NIX_CONFIG": "experimental-features = nix-command flakes"
+  },
+  // Ensure host files exist before Docker bind-mounts them (missing file → Docker creates a dir, breaking auth)
+  "initializeCommand": "mkdir -p ${HOME}/.claude ${HOME}/.ssh && touch ${HOME}/.claude.json ${HOME}/.gitconfig",
+  "postCreateCommand": "nix develop --command bash -c 'bash .devcontainer/post-create.sh'",
+  "overrideCommand": false,
+  "remoteUser": "root",
+  "forwardPorts": [8080, 9876],
+  "portsAttributes": {
+    "8080": { "label": "REST + WebSocket", "onAutoForward": "notify" },
+    "9876": { "label": "FIX 4.4 acceptor", "onAutoForward": "silent" }
+  },
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "java.configuration.updateBuildConfiguration": "automatic",
+        "java.import.gradle.enabled": true,
+        "terminal.integrated.defaultProfile.linux": "bash"
+      },
+      "extensions": [
+        "redhat.java",
+        "vscjava.vscode-java-pack",
+        "vscjava.vscode-gradle",
+        "jnoortheen.nix-ide"
+      ]
+    }
+  }
+}

@@ -1,0 +1,20 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: crypto-exchange-mock
+  jackson:
+    # Serialize Instants as ISO-8601 strings, not numeric timestamps.
+    serialization:
+      write-dates-as-timestamps: false
+
+exchange:
+  fix:
+    port: 9876
+
+logging:
+  level:
+    quickfix: WARN
+    quickfixj: WARN
+    org.apache.mina: WARN

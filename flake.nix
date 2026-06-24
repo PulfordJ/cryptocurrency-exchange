@@ -17,16 +17,15 @@
           buildInputs = with pkgs; [
             jdk
             gradle
+            websocat
+            curl
           ];
 
-          # Make Gradle (and the ./gradlew wrapper) run on the Nix-provided JDK 21
-          # so builds are reproducible regardless of any host-installed Java.
           env = {
-            JAVA_HOME = "${jdk}";
+            JAVA_HOME = jdk.home;
           };
 
           shellHook = ''
-            export JAVA_HOME="${jdk}"
             echo "Crypto Exchange Mock dev shell"
             echo "  Java:   $(java -version 2>&1 | head -1)"
             echo "  Gradle: $(gradle --version 2>/dev/null | grep '^Gradle' | head -1)"

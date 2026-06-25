@@ -59,7 +59,7 @@ import quickfix.field.Text;
 @Component
 public class ExchangeFixApplication extends MessageCracker implements Application {
 
-    private static final Logger log = LoggerFactory.getLogger(ExchangeFixApplication.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ExchangeFixApplication.class);
 
     private final com.exchange.mock.service.ExchangeService exchange;
     private final ConcurrentHashMap<String, SessionID> sessionByClOrdId = new ConcurrentHashMap<>();
@@ -132,7 +132,7 @@ public class ExchangeFixApplication extends MessageCracker implements Applicatio
         try {
             Session.sendToTarget(buildExecutionReport(event), sessionId);
         } catch (SessionNotFound e) {
-            log.warn("Cannot send ExecutionReport, session not found: {}", sessionId);
+            LOG.warn("Cannot send ExecutionReport, session not found: {}", sessionId);
         }
     }
 
@@ -141,11 +141,26 @@ public class ExchangeFixApplication extends MessageCracker implements Applicatio
         char execType;
         char ordStatus;
         switch (event.type()) {
-            case ACCEPTED -> { execType = ExecType.NEW; ordStatus = OrdStatus.NEW; }
-            case PARTIALLY_FILLED -> { execType = ExecType.TRADE; ordStatus = OrdStatus.PARTIALLY_FILLED; }
-            case FILLED -> { execType = ExecType.TRADE; ordStatus = OrdStatus.FILLED; }
-            case CANCELLED -> { execType = ExecType.CANCELED; ordStatus = OrdStatus.CANCELED; }
-            case REJECTED -> { execType = ExecType.REJECTED; ordStatus = OrdStatus.REJECTED; }
+            case ACCEPTED -> {
+                execType = ExecType.NEW;
+                ordStatus = OrdStatus.NEW;
+            }
+            case PARTIALLY_FILLED -> {
+                execType = ExecType.TRADE;
+                ordStatus = OrdStatus.PARTIALLY_FILLED;
+            }
+            case FILLED -> {
+                execType = ExecType.TRADE;
+                ordStatus = OrdStatus.FILLED;
+            }
+            case CANCELLED -> {
+                execType = ExecType.CANCELED;
+                ordStatus = OrdStatus.CANCELED;
+            }
+            case REJECTED -> {
+                execType = ExecType.REJECTED;
+                ordStatus = OrdStatus.REJECTED;
+            }
             default -> throw new IllegalStateException("unhandled event type " + event.type());
         }
         char sideChar = o.side() == com.exchange.mock.domain.Side.BUY ? Side.BUY : Side.SELL;
@@ -192,7 +207,7 @@ public class ExchangeFixApplication extends MessageCracker implements Applicatio
         try {
             Session.sendToTarget(report, sessionId);
         } catch (SessionNotFound e) {
-            log.warn("Cannot send reject, session not found: {}", sessionId);
+            LOG.warn("Cannot send reject, session not found: {}", sessionId);
         }
     }
 
@@ -209,7 +224,7 @@ public class ExchangeFixApplication extends MessageCracker implements Applicatio
         try {
             Session.sendToTarget(reject, sessionId);
         } catch (SessionNotFound e) {
-            log.warn("Cannot send cancel reject, session not found: {}", sessionId);
+            LOG.warn("Cannot send cancel reject, session not found: {}", sessionId);
         }
     }
 
@@ -223,17 +238,17 @@ public class ExchangeFixApplication extends MessageCracker implements Applicatio
 
     @Override
     public void onCreate(SessionID sessionId) {
-        log.info("FIX session created: {}", sessionId);
+        LOG.info("FIX session created: {}", sessionId);
     }
 
     @Override
     public void onLogon(SessionID sessionId) {
-        log.info("FIX client logged on: {}", sessionId);
+        LOG.info("FIX client logged on: {}", sessionId);
     }
 
     @Override
     public void onLogout(SessionID sessionId) {
-        log.info("FIX client logged out: {}", sessionId);
+        LOG.info("FIX client logged out: {}", sessionId);
     }
 
     @Override

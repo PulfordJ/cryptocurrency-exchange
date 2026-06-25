@@ -16,12 +16,31 @@ public class Balance {
         this.reserved = BigDecimal.ZERO;
     }
 
-    public BigDecimal available() { return available; }
-    public BigDecimal reserved() { return reserved; }
-    public BigDecimal total() { return available.add(reserved); }
+    public BigDecimal available() {
+        return available;
+    }
 
-    void creditAvailable(BigDecimal amount) { available = available.add(amount); }
-    void debitAvailable(BigDecimal amount) { available = available.subtract(amount); }
-    void creditReserved(BigDecimal amount) { reserved = reserved.add(amount); }
-    void debitReserved(BigDecimal amount) { reserved = reserved.subtract(amount); }
+    public BigDecimal reserved() {
+        return reserved;
+    }
+
+    public BigDecimal total() {
+        return available.add(reserved);
+    }
+
+    void creditAvailable(BigDecimal amount) {
+        available = available.add(amount);
+    }
+
+    void debitAvailable(BigDecimal amount) {
+        available = available.subtract(amount);
+    }
+
+    void creditReserved(BigDecimal amount) {
+        reserved = reserved.add(amount);
+    }
+
+    void debitReserved(BigDecimal amount) {
+        reserved = reserved.subtract(amount);
+    }
 }

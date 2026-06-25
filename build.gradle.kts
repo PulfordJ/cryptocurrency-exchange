@@ -1,6 +1,7 @@
 plugins {
     java
     jacoco
+    checkstyle
     id("org.springframework.boot") version "3.3.5"
     id("io.spring.dependency-management") version "1.1.6"
 }
@@ -37,6 +38,13 @@ dependencies {
     testImplementation("org.awaitility:awaitility:4.2.2")
     testImplementation("org.assertj:assertj-core:3.26.3")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+}
+
+// --- Checkstyle ---
+checkstyle {
+    toolVersion = "10.17.0"
+    configFile = file("${rootDir}/config/checkstyle/checkstyle.xml")
+    isIgnoreFailures = false
 }
 
 tasks.withType<Test> {

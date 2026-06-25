@@ -85,20 +85,67 @@ public class Order {
         this.reservedAmount = this.reservedAmount.subtract(amount);
     }
 
-    public String id() { return id; }
-    public String clientOrderId() { return clientOrderId; }
-    public String accountId() { return accountId; }
-    public Symbol symbol() { return symbol; }
-    public Side side() { return side; }
-    public OrderType type() { return type; }
-    public BigDecimal price() { return price; }
-    public BigDecimal quantity() { return quantity; }
-    public OrderSource source() { return source; }
-    public Instant createdAt() { return createdAt; }
-    public BigDecimal filledQuantity() { return filledQuantity; }
-    public OrderStatus status() { return status; }
-    public String rejectReason() { return rejectReason; }
-    public Instant updatedAt() { return updatedAt; }
-    public String reservedAsset() { return reservedAsset; }
-    public BigDecimal reservedAmount() { return reservedAmount; }
+    public String id() {
+        return id;
+    }
+
+    public String clientOrderId() {
+        return clientOrderId;
+    }
+
+    public String accountId() {
+        return accountId;
+    }
+
+    public Symbol symbol() {
+        return symbol;
+    }
+
+    public Side side() {
+        return side;
+    }
+
+    public OrderType type() {
+        return type;
+    }
+
+    public BigDecimal price() {
+        return price;
+    }
+
+    public BigDecimal quantity() {
+        return quantity;
+    }
+
+    public OrderSource source() {
+        return source;
+    }
+
+    public Instant createdAt() {
+        return createdAt;
+    }
+
+    public BigDecimal filledQuantity() {
+        return filledQuantity;
+    }
+
+    public OrderStatus status() {
+        return status;
+    }
+
+    public String rejectReason() {
+        return rejectReason;
+    }
+
+    public Instant updatedAt() {
+        return updatedAt;
+    }
+
+    public String reservedAsset() {
+        return reservedAsset;
+    }
+
+    public BigDecimal reservedAmount() {
+        return reservedAmount;
+    }
 }

@@ -13,7 +13,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 /** Base class for handlers that push JSON, with helpers for query parsing and safe sends. */
 abstract class JsonWebSocketHandler extends TextWebSocketHandler {
 
-    private static final Logger LOG = LoggerFactory.getLogger(JsonWebSocketHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(JsonWebSocketHandler.class);
 
     protected final ObjectMapper objectMapper;
 
@@ -33,7 +33,7 @@ abstract class JsonWebSocketHandler extends TextWebSocketHandler {
                 session.sendMessage(new TextMessage(json));
             }
         } catch (IOException | RuntimeException e) {
-            LOG.debug("Failed to send to session {}: {}", session.getId(), e.getMessage());
+            logger.debug("Failed to send to session {}: {}", session.getId(), e.getMessage());
         }
     }
 

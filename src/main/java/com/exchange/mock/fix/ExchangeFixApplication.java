@@ -59,7 +59,7 @@ import quickfix.field.Text;
 @Component
 public class ExchangeFixApplication extends MessageCracker implements Application {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ExchangeFixApplication.class);
+    private static final Logger logger = LoggerFactory.getLogger(ExchangeFixApplication.class);
 
     private final com.exchange.mock.service.ExchangeService exchange;
     private final ConcurrentHashMap<String, SessionID> sessionByClOrdId = new ConcurrentHashMap<>();
@@ -132,7 +132,7 @@ public class ExchangeFixApplication extends MessageCracker implements Applicatio
         try {
             Session.sendToTarget(buildExecutionReport(event), sessionId);
         } catch (SessionNotFound e) {
-            LOG.warn("Cannot send ExecutionReport, session not found: {}", sessionId);
+            logger.warn("Cannot send ExecutionReport, session not found: {}", sessionId);
         }
     }
 
@@ -207,7 +207,7 @@ public class ExchangeFixApplication extends MessageCracker implements Applicatio
         try {
             Session.sendToTarget(report, sessionId);
         } catch (SessionNotFound e) {
-            LOG.warn("Cannot send reject, session not found: {}", sessionId);
+            logger.warn("Cannot send reject, session not found: {}", sessionId);
         }
     }
 
@@ -224,7 +224,7 @@ public class ExchangeFixApplication extends MessageCracker implements Applicatio
         try {
             Session.sendToTarget(reject, sessionId);
         } catch (SessionNotFound e) {
-            LOG.warn("Cannot send cancel reject, session not found: {}", sessionId);
+            logger.warn("Cannot send cancel reject, session not found: {}", sessionId);
         }
     }
 
@@ -238,17 +238,17 @@ public class ExchangeFixApplication extends MessageCracker implements Applicatio
 
     @Override
     public void onCreate(SessionID sessionId) {
-        LOG.info("FIX session created: {}", sessionId);
+        logger.info("FIX session created: {}", sessionId);
     }
 
     @Override
     public void onLogon(SessionID sessionId) {
-        LOG.info("FIX client logged on: {}", sessionId);
+        logger.info("FIX client logged on: {}", sessionId);
     }
 
     @Override
     public void onLogout(SessionID sessionId) {
-        LOG.info("FIX client logged out: {}", sessionId);
+        logger.info("FIX client logged out: {}", sessionId);
     }
 
     @Override

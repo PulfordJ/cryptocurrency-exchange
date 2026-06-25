@@ -28,7 +28,7 @@ import quickfix.SocketAcceptor;
 @Component
 public class FixAcceptorService implements SmartLifecycle {
 
-    private static final Logger LOG = LoggerFactory.getLogger(FixAcceptorService.class);
+    private static final Logger logger = LoggerFactory.getLogger(FixAcceptorService.class);
     private static final String CONFIG = "quickfixj-server.cfg";
     private static final String ACCEPT_PORT = "SocketAcceptPort";
 
@@ -61,7 +61,7 @@ public class FixAcceptorService implements SmartLifecycle {
                     new SLF4JLogFactory(settings), new DefaultMessageFactory());
             acceptor.start();
             running = true;
-            LOG.info("FIX 4.4 acceptor listening on port {}", port);
+            logger.info("FIX 4.4 acceptor listening on port {}", port);
         } catch (ConfigError | RuntimeException | java.io.IOException e) {
             throw new IllegalStateException("Failed to start FIX acceptor", e);
         }

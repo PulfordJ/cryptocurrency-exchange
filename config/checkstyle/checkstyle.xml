@@ -17,7 +17,10 @@
 
     <module name="TreeWalker">
         <!-- Naming conventions -->
-        <module name="ConstantName"/>
+        <!-- Allow 'logger' / 'log' — the conventional SLF4J field name — in addition to UPPER_SNAKE_CASE -->
+        <module name="ConstantName">
+            <property name="format" value="^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$|^log(ger)?$"/>
+        </module>
         <module name="LocalVariableName"/>
         <module name="MemberName"/>
         <module name="MethodName"/>

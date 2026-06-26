@@ -28,7 +28,7 @@ one engine.
 | [Nix + terminal](#nix--terminal) | Nix |
 | [Nix + VS Code](#nix--vs-code) | Nix, VS Code |
 | [JDK 21 + terminal](#jdk-21--terminal) | JDK 21 |
-| [Docker + VS Code Dev Container](#docker--vs-code-dev-container) | Docker, VS Code |
+| [GitHub Codespaces](#github-codespaces) | GitHub account |
 
 ### Nix + terminal
 
@@ -97,18 +97,11 @@ The committed `./gradlew` wrapper pins Gradle 8.14.4 and downloads it automatica
 
 ---
 
-### Docker + VS Code Dev Container
+### GitHub Codespaces
 
-No local JDK or Nix required — JDK 21 is baked into the devcontainer image. Open the repo in
-VS Code with the **Dev Containers** extension installed and choose **Reopen in Container**.
-
-Three definitions live under [`.devcontainer/`](.devcontainer/):
-
-- **`devcontainer.json`** — default (macOS/Linux hosts)
-- **`wsl/devcontainer.json`** — Windows + WSL2 host paths *(edit the hard-coded `\\wsl.localhost\Ubuntu\home\<you>\…` mount paths for your user)*
-- **`windows/devcontainer.json`** — native Windows host paths
-
-On create the container warms the Gradle cache; `supervisord` then auto-starts the mock on ports 8080/9876.
+Click the badge at the top of this page (or go to **Code → Codespaces → New codespace**).
+No local tooling required — JDK 21 is baked into the devcontainer image and the mock
+auto-starts on ports 8080/9876 via `supervisord`.
 
 ---
 

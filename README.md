@@ -1,7 +1,11 @@
 # Mock Cryptocurrency Exchange + Java Integration Test Suite
 
 [![CI](https://github.com/PulfordJ/cryptocurrency-exchange/actions/workflows/ci.yml/badge.svg)](https://github.com/PulfordJ/cryptocurrency-exchange/actions/workflows/ci.yml)
+
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/PulfordJ/cryptocurrency-exchange)
+
+
+[![Open in Dev Container](https://img.shields.io/static/v1?label=Dev%20Container&message=Open&color=blue&logo=visualstudiocode)](https://vscode.dev/redirect?url=vscode://ms-vscode-remote.remote-containers/cloneInVolume?url=https://github.com/PulfordJ/cryptocurrency-exchange) *(runs locally — requires VS Code + Docker)*
 
 A lightweight mock of a crypto exchange and a suite of Java automated integration tests against it.
 

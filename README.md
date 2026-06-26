@@ -1,5 +1,7 @@
 # Mock Cryptocurrency Exchange + Java Integration Test Suite
 
+[![CI](https://github.com/PulfordJ/cryptocurrency-exchange/actions/workflows/ci.yml/badge.svg)](https://github.com/PulfordJ/cryptocurrency-exchange/actions/workflows/ci.yml)
+
 A lightweight mock of a crypto exchange and a suite of Java automated integration tests against it.
 
 The mock exposes the **same matching engine over three protocols** so that the same trading

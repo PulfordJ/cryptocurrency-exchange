@@ -4,9 +4,6 @@
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/PulfordJ/cryptocurrency-exchange)
 
-
-[![Open in Dev Container](https://img.shields.io/static/v1?label=Dev%20Container&message=Open&color=blue&logo=visualstudiocode)](https://vscode.dev/redirect?url=vscode://ms-vscode-remote.remote-containers/cloneInVolume?url=https://github.com/PulfordJ/cryptocurrency-exchange) *(runs locally — requires VS Code + Docker)*
-
 A lightweight mock of a crypto exchange and a suite of Java automated integration tests against it.
 
 The mock exposes the **same matching engine over three protocols** so that the same trading
@@ -26,6 +23,8 @@ one engine.
 ---
 
 ## Local dev
+
+> **JDK tip:** Running locally via one of the paths below is the easiest way to ensure VS Code and the build pick up the correct JDK 21 — the Nix and Dev Container options pin it automatically, and the `JDK 21 + terminal` path makes it explicit.
 
 | Path | Requires |
 |------|----------|

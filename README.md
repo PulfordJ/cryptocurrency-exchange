@@ -1,7 +1,6 @@
 # Mock Cryptocurrency Exchange + Java Integration Test Suite
 
-A lightweight mock of a crypto exchange and a suite of Java automated integration tests against it,
-built for the **Senior QA Engineer (Exchange & Funding)** practical exercise.
+A lightweight mock of a crypto exchange and a suite of Java automated integration tests against it.
 
 The mock exposes the **same matching engine over three protocols** so that the same trading
 behaviour can be driven and observed through whichever channel a real venue would use:
@@ -180,11 +179,9 @@ an order entered on FIX and filled on REST genuinely flows through the same stat
 ```
 
 ### Why REST + WebSocket + FIX
-The brief calls out trading protocols explicitly, and a real exchange uses each where it fits:
-**REST** for request/response order management, **WebSocket** for push-based market data and async
-order status, and **FIX** for institutional order execution. Implementing all three demonstrates the
-protocol breadth expected of an Exchange & Funding QA engineer and, more importantly, lets the tests
-verify the *same* behaviour across transports.
+A real exchange uses each protocol where it fits: **REST** for request/response order management,
+**WebSocket** for push-based market data and async order status, and **FIX** for institutional order
+execution. Implementing all three lets the tests verify the *same* behaviour across transports.
 
 ### Trading & funding semantics
 - **Price-time priority** matching for `LIMIT` and `MARKET` orders; trades print at the **maker's

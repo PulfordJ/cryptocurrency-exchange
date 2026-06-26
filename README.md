@@ -109,6 +109,20 @@ On create the container warms the Gradle cache; `supervisord` then auto-starts t
 
 ---
 
+## Troubleshooting
+
+### VS Code cannot find tests but `./gradlew test` runs fine
+
+This is a known bug in newer versions of the **Language Support for Java(TM) by Red Hat** extension.
+Downgrading to **1.54.0** fixes it:
+
+1. Open the Extensions view (`Ctrl+Shift+X` / `Cmd+Shift+X`).
+2. Search for **Language Support for Java(TM) by Red Hat**, click the gear icon, and choose **Install Specific Version…**.
+3. Select **1.54.0**.
+4. Reload VS Code.
+
+---
+
 ## Trying it manually
 
 ```bash

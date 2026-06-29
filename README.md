@@ -108,8 +108,8 @@ VS Code with the **Dev Containers** extension installed and choose **Reopen in C
 Three definitions live under [`.devcontainer/`](.devcontainer/):
 
 - **`devcontainer.json`** — default (macOS/Linux hosts)
-- **`wsl/devcontainer.json`** — Windows + WSL2 host paths *(edit the hard-coded `\\wsl.localhost\Ubuntu\home\<you>\…` mount paths for your user)*
 - **`windows/devcontainer.json`** — native Windows host paths
+- **`wsl/devcontainer.json`** — Windows + WSL2 host paths *(requires editing the hard-coded `\\wsl.localhost\Ubuntu\home\<you>\…` mount paths; prefer one of the two options above)*
 
 On create the container warms the Gradle cache; `supervisord` then auto-starts the mock on ports 8080/9876.
 

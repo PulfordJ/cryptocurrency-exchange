@@ -4,7 +4,7 @@
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/PulfordJ/cryptocurrency-exchange) *(select 4 cores for best experience)*
 
-[![Open in Dev Container](https://img.shields.io/static/v1?label=Dev%20Container&message=Open&color=blue&logo=visualstudiocode)](https://vscode.dev/redirect?url=vscode://ms-vscode-remote.remote-containers/cloneInVolume?url=https://github.com/PulfordJ/cryptocurrency-exchange) *(macOS/Linux — requires VS Code + Docker; **Windows:** clone the repo, open in VS Code, and when prompted choose **Reopen in Container** → select `windows/devcontainer.json`)*
+[![Open in Dev Container](https://img.shields.io/static/v1?label=Dev%20Container&message=Open&color=blue&logo=visualstudiocode)](https://vscode.dev/redirect?url=vscode://ms-vscode-remote.remote-containers/cloneInVolume?url=https://github.com/PulfordJ/cryptocurrency-exchange) *(macOS/Linux — requires VS Code + Docker; Windows: [see below](#docker--vs-code-dev-container))*
 
 A lightweight mock of a crypto exchange and a suite of Java automated integration tests against it.
 
